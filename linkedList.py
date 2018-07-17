@@ -9,7 +9,6 @@ class LinkedStack:
 
     def __init__(self):
         self._head = None
-        #self._tail = None
         self._size = 0
 
     def __len__(self):
@@ -41,5 +40,3 @@ class LinkedStack:
         self._head = self._head._next
         self._size -= 1
         return result
-
-a = LinkedStack()
