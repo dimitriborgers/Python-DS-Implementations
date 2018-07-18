@@ -1,4 +1,4 @@
-class LinkedStack:
+class SinglyLinkedStack:
 
     class _Node:
         __slots__ = '_element','_next'
@@ -43,7 +43,60 @@ class LinkedStack:
     
 #------------------------------------------------------
 
-class CircularLinkedQueue:
+class SinglyLinkedQueue:
+
+    class _Node:
+        __slots__ = '_element','_next'
+
+        def __init__(self, _element, _next):
+            self._element = _element
+            self._next = _next
+
+    def __init__(self):
+        self._head = None
+        self._tail = None
+        self._size = 0
+
+    def __len__(self):
+        return self._size
+
+    def __repr__(self):
+        outcome = []
+        current = self._head
+        while current:
+            outcome.append(current._element)
+            current = current._next
+        return "{}".format(outcome)
+
+    def is_empty(self):
+        return self._size == 0
+
+    def first(self):
+        if self.is_empty():
+            raise Exception('Queue is Empty')
+        else:
+            return self._head._element
+
+    def enqueue(self,e):
+        if self.is_empty():
+            self._tail = self._head = self._Node(e,None)
+        else:
+            self._tail._next = self._tail = self._Node(e,None)
+        self._size += 1
+
+    def dequeue(self):
+        if self.is_empty():
+            return Exception('Queue is Empty')
+        result = self._head._element
+        self._head = self._head._next
+        self._size -= 1
+        if self.is_empty():
+            self._tail = None
+        return result
+
+#------------------------------------------------------
+    
+class CircularyLinkedQueue:
 
     class _Node:
         __slots__ = '_element','_next'
@@ -105,3 +158,58 @@ class CircularLinkedQueue:
         oldhead = self._head
         self._head = self._head._next
         self._tail = oldhead
+
+#------------------------------------------------------
+        
+class _DoublyLinkedList:
+
+    class _Node:
+        __slots__ = '_element','_next','_previous'
+
+        def __init__(self, _element, _previous, _next):
+            self._element = _element
+            self._previous = _previous
+            self._next = _next
+
+    def __init__(self):
+        self._header = self._Node(None,None,None)
+        self._trailer = self._Node(None,None,None)
+        self._header._next = self._trailer
+        self._trailer._previous = self._header
+        self._size = 0
+
+    def __len__(self):
+        return self._size
+
+    def __repr__(self):
+        outcome = []
+        current = self._header._next
+        while current != self._trailer:
+            outcome.append(current._element)
+            current = current._next
+        return "{}".format(outcome)
+
+    def is_empty(self):
+        return self._size == 0
+
+    def _insert_between(self,e,left,right):
+        newest = self._Node(e,left,right)
+        left._next = newest
+        right._previous = newest
+        self._size += 1
+
+    def _delete_node(self,node):
+        left = node._previous
+        right = node._next
+        left._next = right
+        right._previous = left
+        self._size -= 1
+        element = node._element
+        node._previous = node._next = node._element = None
+        return element
+    
+#------------------------------------------------------
+
+class PositionalList(_DoublyLinkedList):
+    
+    
