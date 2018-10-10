@@ -5,14 +5,14 @@ class DynamicArray:
     def __init__(self):
         self._size = 0
         self._capacity = 1
-        self._data = self._make_array(1)
+        self._data = self._make_array(self._capacity)
 
     def __len__(self):
         return self._size
 
     def __getitem__(self,index):
-        if not 0 < self._size < self._capacity:
-            raise IndexError('No elements in list')
+        if not 0 <= index < self._size:
+            raise IndexError('Invalid Index')
         else:
             return self._data[index]
 
